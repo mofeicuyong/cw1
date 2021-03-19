@@ -1,32 +1,22 @@
 #include "book_management.h"
 #include<string.h>
-struct node
-{
-	Book Book;
-	struct node* next;
-};
-struct ar
-{
-	BookArray BookArray;
-	struct _BookArray *next;
-};
-	struct node* head, *tail;
+	Book* head, *tail;
 	head->next=NULL;
-	struct ar *h, *t;
-	h->next = NULL;
+	Book* h,t;
+	
 //saves the database of books in the specified file
 //returns 0 if books were stored correctly, or an error code otherwise
 int store_books(FILE *file)
 {
 	if(head != NULL)
   { 
-    struct node *p = head->next;
+    Book *p = head->next;
     FILE* fp = fopen(file, "w+");
     if(fp != NULL)
     {
       while(p != NULL)
       {
-        fprintf(fp, "%d %s %s %d %d\n", p->Book.id,p->Book.title, p->Book.authors, p->Book.year, p->Book.copies);
+        fprintf(fp, "%d %s %s %d %d\n", p->id,p->title, p->authors, p->year, p->copies);
         p = p->next;
       }
       fclose(fp);
@@ -45,19 +35,19 @@ int store_books(FILE *file)
 load_books(FILE *file)
 {
 	FILE* fp = fopen(file, "a+");
-  Book book;
+  Book* book;
   if (fp != NULL) {
-    while (fscanf(fp, "%d %s %s %d %d", &Book.id, &Book.title, &Book.author, &Book.year, &Book.copies) != EOF) 
+    while (fscanf(fp, "%d %s %s %d %d", &book->id, &book->title, &book->authors, &book->year, &book->copies) != EOF) 
 	{
       if(head != NULL)
   		{
 			Book *node;
 			node = (struct Book *)malloc(sizeof(Book));
-			node=Book;
+			node=book;
 			node = node->next;
 			if(node != NULL)
     		{
-      		struct node* p = head;
+      		Book* p = head;
       		while(p->next != NULL)
         	p = p->next;
 			p->next = node;
@@ -80,21 +70,21 @@ add_book(Book book)
 {
 	int i=0;
 	int j=0;
-	struct node *node1;
+	Book *node1;
 	node1 = (struct Book *)malloc(sizeof(Book));
 	printf("Enter the title of the book you wish to add:");
-	scanf("%s",&node1->Book.title);
+	scanf("%s",&node1->title);
 	printf("Enter the author of the book you wish to add:");
-	scanf("%s",&node1->Book.authors);
+	scanf("%s",&node1->authors);
 	printf("Enter the year that the book you wish to add was released:");
-	scanf("%d",&node1->Book.year);
+	scanf("%d",&node1->year);
 	printf("Enter the number of the copies of the book that you wish to add:");
-	scanf("%d",&node1->Book.copies);
-	struct node *a=head;
+	scanf("%d",&node1->copies);
+	Book *a=head;
 	while(a->next==NULL)
 	{
 	j++;
-	if(strcmp(node->Book.title,a->Book.title)==NULL)
+	if(strcmp(node1->title,a->title)==NULL)
 	{
 		printf("Book has been added successfully!");
 	}
@@ -106,8 +96,8 @@ add_book(Book book)
 	}
 	if(i==j)
 	{
-		node->Book.id = j;
-		tail->next = node;
+		node1->id = j;
+		tail->next = node1;
 		tail = tail->next;
 		printf("Book was successfully added!");
 		return 0;
@@ -117,16 +107,20 @@ add_book(Book book)
 //returns 0 if the book could be successfully removed, or an error code otherwise.
 remove_book(Book book)
 {
-	struct node *p = head;
-	while(p.next.Book==book)
+	int i;
+	Book *p = head;
+	printf("Enter the ID number of the book you wish to remove:");
+	scanf("d%",&i);
+	while(p->next->id==i)
 	{
 		p=p->next;
 	}
-	if(p->next->Book==book)
+	if(p->next->id==i)
 	{
-	struct node* pr=p->next; 
+	Book* pr=p->next; 
 	p->next=pr->next;
 	free(pr);
+	printf("Book was successfully removed");
 	return 0;
 	}
 	else
@@ -139,23 +133,25 @@ remove_book(Book book)
 //array is the null pointer.
 BookArray find_book_by_title (const char *title)
 {
-	ar *k=h; 
-	k = (struct BookArray *)malloc(sizeof(struct BookArray));
-	node *p= head;
+	BookArray BookArray;
+	Book *k=h; 
+	BookArray.array=h;
+	k = (struct Book *)malloc(sizeof(Book));
+	Book *p= head;
 	while(p->next!=NULL)
 	{
-		if (strcmp(p->Book.title,title)==0)
+		if (strcmp(p->title,title)==0)
 		{
-			ar->BookArray.length=length+1;
+			BookArray.length++;
+			k=p;
 			while(k->next==NULL)
 			{
 				k=k->next;
 			}
-			k->BookArray.array=p->Book;
 		}
 		p=p->next;
 	}
-	return ar->BookArray; 
+	return BookArray; 
 }
 
 //finds books with the given authors.
@@ -164,23 +160,25 @@ BookArray find_book_by_title (const char *title)
 //array is the null pointer.
 BookArray find_book_by_author (const char *author)
 {
-	ar *k=h; 
-	k = (struct BookArray *)malloc(sizeof(struct BookArray));
-	node *p= head;
+	BookArray BookArray;
+	Book *k=h; 
+	BookArray.array=h;
+	k = (struct Book *)malloc(sizeof(Book));
+	Book *p= head;
 	while(p->next!=NULL)
 	{
-		if (strcmp(p->Book.author,author)==0)
+		if (strcmp(p->authors,author)==0)
 		{
-			ar->BookArray.length=length+1;
+			BookArray.length++;
+			k=p;
 			while(k->next==NULL)
 			{
 				k=k->next;
 			}
-			k->BookArray.array=p->Book;
 		}
 		p=p->next;
 	}
-	return ar->BookArray; 
+	return BookArray;
 }
 //finds books published in the given year.
 //returns a BookArray structure, where the field "array" is a newly allocated array of books, or null if no book with the 
@@ -188,21 +186,25 @@ BookArray find_book_by_author (const char *author)
 //array is the null pointer.
 BookArray find_book_by_year (unsigned int year)
 {
-	ar *k=h; 
-	k = (struct BookArray *)malloc(sizeof(struct BookArray));
-	node *p= head;
+	BookArray BookArray;
+	Book *k=h; 
+	BookArray.array=h;
+	k = (struct Book *)malloc(sizeof(Book));
+	Book *p= head;
 	while(p->next!=NULL)
 	{
-		if (strcmp(p->Book.year,year)==0)
+		if (strcmp(p->year,year)==0)
 		{
-			ar->BookArray.length=length+1;
+			BookArray.length++;
+			k=p;
 			while(k->next==NULL)
 			{
 				k=k->next;
 			}
-			k.BookArray->array=p->Book;
 		}
 		p=p->next;
 	}
-	return ar->BookArray; 
+	return BookArray;
 }
+
+
