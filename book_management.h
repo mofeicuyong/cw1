@@ -16,6 +16,7 @@ typedef struct _Book {
 		char *authors; //comma separated list of authors
 		unsigned int year; // year of publication
 		unsigned int copies; //number of copies the library has
+		struct _Book *next; 
 }Book;
 
 typedef struct _BookArray {
@@ -58,4 +59,5 @@ BookArray find_book_by_author (const char *author);
 //provided title can be found. The length of the array is also recorded in the returned structure, with 0 in case
 //array is the null pointer.
 BookArray find_book_by_year (unsigned int year);
+
 #endif
