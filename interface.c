@@ -2,6 +2,7 @@
 
 void menu1()
 {
+	printf("\n");
 	printf("Please choose an option:\n");
 	printf("1)Register an account\n");
 	printf("2)Login\n");
@@ -12,6 +13,7 @@ void menu1()
 }
 void menu2()
 {
+	printf("\n");
 	printf("Please choose an option:\n");
 	printf("1)Add a book\n");
 	printf("2)Remove a book\n");
@@ -22,6 +24,7 @@ void menu2()
 }
 void menu3()
 {
+	printf("\n");
 	printf("Please choose an option:\n");
 	printf("1)Find books by title\n");
 	printf("2)Find books by author\n");
@@ -31,6 +34,7 @@ void menu3()
 }
 void menu4()
 {
+	printf("\n");
 	printf("Please choose an option:\n");
 	printf("1)Borrow a book\n");
 	printf("2)Return a book\n");
