@@ -91,10 +91,11 @@ int Borrow_book(Book *head)
 	Book* m=head;
 	int di;
 	int flag=0;
-	printf("Please enter which book you want to borrow:");
+	printf("Please enter the id of the book you want to borrow:");
 	scanf("%d",&di);
-	while(m->next==NULL)
+	while(m->next!=NULL)
 	{
+		m=m->next;
 		if(di==m->id)
 		{
 			flag=1;
@@ -106,15 +107,14 @@ int Borrow_book(Book *head)
 			}
 			else
 			{
-				printf("");
+				printf("This book has already been check out!");
 				return 0;
 			}
 		}
-		m=m->next;
 	}
 	if(flag==0)
 	{
-		printf("");
+		printf("Fail to find this book.");
 		return 0;
 	}
 }
@@ -123,23 +123,21 @@ int return_book(Book *head)
 	Book* m=head;
 	int di;
 	int flag=0;
-	printf("");
+	printf("Please enter the id of the book you want to return:");
 	scanf("%d",&di);
-	while(m->next==NULL)
+	while(m->next!=NULL)
 	{
+		m=m->next;
 		if(di==m->id)
 		{
 			flag=1;
 			m->copies++;
-			printf("");
-
-		
+			printf("You have return the book successfuly!");
 		}
-		m=m->next;
 	}
-	if(flag==0);
+	if(flag==0)
 	{
-		printf("");
+		printf("You may type a wrong id.");
 	}
 	
 }
