@@ -76,9 +76,11 @@ int add_book(Book* head)
 	node1->authors = (char*)malloc(sizeof(char)*50);
 	node1->title = (char*)malloc(sizeof(char)*50); 
 	printf("Enter the title of the book you wish to add:");
-	scanf("%s",node1->title);
+	getchar();
+	scanf("%[^\n]s",node1->title);
 	printf("Enter the author of the book you wish to add:");
-	scanf("%s",node1->authors);
+	getchar();
+	scanf("%[^\n]s",node1->authors);
 	printf("Enter the year that the book you wish to add was released:");
 	scanf("%d",&node1->year);
 	printf("Enter the number of the copies of the book that you wish to add:");
@@ -90,7 +92,7 @@ int add_book(Book* head)
 	a = a->next;
 		if(strcmp(node1->title,a->title)==0)
 		{
-			printf("Book has been already added!");
+			printf("Book has been already added!\n");
 		}
 		else
 		{
@@ -143,11 +145,16 @@ BookArray find_book_by_title (Book*head,Book*h)
 	char* title;
 	printf("Please enter the title:");
 	title = (char*)malloc(sizeof(char)*50);
-	scanf("%s",title);
+	getchar();
+	scanf("%[^\n]s",title);
 	getchar();
 	BookArray BookArray;
 	BookArray.length=0;
 	Book *k=h; 
+	Book *node;
+	node = (Book*)malloc(sizeof(Book));
+	node->title =(char*)malloc(sizeof(char)*50);
+	node->authors =(char*)malloc(sizeof(char)*50);
 	Book *p= head;
 	while(p->next!=NULL)
 	{
@@ -165,7 +172,12 @@ BookArray find_book_by_title (Book*head,Book*h)
 			{
 				k=k->next;
 			}
-			k->next=p;
+			strcpy(node->title,title);
+			node->authors=p->authors;
+			node->id=p->id;
+			node->year=p->year;
+			node->copies=p->copies;
+			k->next=node;
 		}
 	}
 	if(flag==0)
@@ -186,10 +198,15 @@ BookArray find_book_by_author (Book* head,Book*h)
 	char* author;
 	printf("Please enter the author:");
 	author = (char*)malloc(sizeof(char)*50);
-	scanf("%s",author);
+	getchar();
+	scanf("%[^\n]s",author);
 	BookArray BookArray;
 	BookArray.length=0;
 	Book *k=h; 
+	Book *node;
+	node = (Book*)malloc(sizeof(Book));
+	node->title =(char*)malloc(sizeof(char)*50);
+	node->authors =(char*)malloc(sizeof(char)*50);
 	int flag=0;
 	Book *p= head;
 	while(p->next!=NULL)
@@ -208,7 +225,12 @@ BookArray find_book_by_author (Book* head,Book*h)
 			{
 				k=k->next;
 			}
-			k->next=p;
+			node->title=p->title;
+			node->authors=p->authors;
+			node->id=p->id;
+			node->year=p->year;
+			node->copies=p->copies;
+			k->next=node;
 		}
 	}
 	if(flag==0)
@@ -230,6 +252,10 @@ BookArray find_book_by_year (Book *head,Book*h)
 	scanf("%d",&year);
 	BookArray.length=0;
 	Book *k=h; 
+	Book *node;
+	node = (Book*)malloc(sizeof(Book));
+	node->title =(char*)malloc(sizeof(char)*50);
+	node->authors =(char*)malloc(sizeof(char)*50);
 	int flag=0;
 	Book *p= head;
 	while(p->next!=NULL)
@@ -248,7 +274,12 @@ BookArray find_book_by_year (Book *head,Book*h)
 			{
 				k=k->next;
 			}
-			k->next=p;
+			node->title=p->title;
+			node->authors=p->authors;
+			node->id=p->id;
+			node->year=p->year;
+			node->copies=p->copies;
+			k->next=node;
 		}
 	}
 	if(flag==0)
@@ -283,6 +314,7 @@ void search(Book*head,Book*h)
 										while(k!=NULL)
 										{
 										printf("%d %s %s %d %d",k->id,k->title,k->authors,k->year,k->copies);
+										printf("\n");
 										k=k->next;
 										}
 									}
@@ -300,6 +332,7 @@ void search(Book*head,Book*h)
 										while(k!=NULL)
 										{
 										printf("%d %s %s %d %d",k->id,k->title,k->authors,k->year,k->copies);
+										printf("\n");
 										k=k->next;
 										}
 									}
@@ -317,6 +350,7 @@ void search(Book*head,Book*h)
 										while(k!=NULL)
 										{
 										printf("%d %s %s %d %d",k->id,k->title,k->authors,k->year,k->copies);
+										printf("\n");
 										k=k->next;
 										}
 									}
