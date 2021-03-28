@@ -4,18 +4,23 @@
 #include "book_management.h"
 #include <stdio.h>
 typedef struct _Student {
+		int idi;
 	    char *id; 
 		char *password; 
-		Book bro[100];
+		Book* bro;
 		struct _Student *next; 
+		int book;
 }Student;
 
-void create_a_student_link();
-int Borrow_book(Book *head);
+int Borrow_book(Book *head,int sid,Student*hh,Book*hhh);
 
-int return_book(Book *head);
+int return_book(Book *head,int sid,Student*hh,Book*hhh);
 
 int register_id(Student *hh);
 
 int log_in(Student *hh);
+
+int store_student(FILE *file,Student *hh,Book* hhh);
+
+int load_student(FILE *file,Student*hh,Book* hhh);
 #endif
