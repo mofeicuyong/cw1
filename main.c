@@ -13,12 +13,15 @@ int main()
 	Book* h,*t;
 	h=(Book*)malloc(sizeof(Book));
 	h->next=NULL;
+	Book* hhh;
+	hhh=(Book*)malloc(sizeof(Book));
+	hhh->next=NULL;
 	int a;
 	int time=0;
 	int kk;
 	BookArray x;
 	while(1)
-	{ 
+	{
 		menu1();
 		scanf("%d",&a);
 		switch(a)
@@ -28,7 +31,7 @@ int main()
 				continue;
 			case 2:
 				kk=log_in(hh);
-				if(kk==1)
+				if(kk==-2)
 				{
 					time=0;
 					while(time==0)
@@ -68,7 +71,7 @@ int main()
 						}
 					}
 				}
-				else if(kk==0)
+				else if(kk!=-2&&kk!=-1)
 				{
 					time=0;
 					while(time==0)
@@ -78,34 +81,25 @@ int main()
 					switch(a)
 					{
 						case 1:
-							Borrow_book(head);
+							Borrow_book(head,kk,hh,hhh);
 							continue;
 						case 2:
-							return_book(head);
+							return_book(head,kk,hh,hhh);
 							continue;
 						case 3:
 							search(head,h);
 							continue;
 						case 4:
-								{
-					Book *p=head;
-					while(p->next!=NULL)
-					{
-						p=p->next;
-						printf("%d %s %s %d %d",p->id,p->title,p->authors,p->year,p->copies);
-						printf("\n");
-					}
-					continue;
-				}
-						
-						
-						
-						
-						
-						
-						
-						
-						
+							{
+							Book *p=head;
+							while(p->next!=NULL)
+							{
+								p=p->next;
+								printf("%d %s %s %d %d",p->id,p->title,p->authors,p->year,p->copies);
+								printf("\n");
+							}
+							continue;
+							}
 						case 5:
 							time=1;
 							continue;
