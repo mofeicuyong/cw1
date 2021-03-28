@@ -10,7 +10,7 @@ int store_books(FILE *file,Book*head)
 	if(head != NULL)
   { 
     Book *p = head->next;
-    file = fopen("file.txt", "a+");
+    file = fopen("book.txt", "w+");
     if(file != NULL)
     {
       while(p != NULL)
@@ -34,25 +34,26 @@ int store_books(FILE *file,Book*head)
 int load_books(FILE *file,Book*head)
 {
 	
-	file = fopen("file.txt", "a+");
+	file = fopen("book.txt", "a+");
  	Book* book;
+
   	if (file != NULL) {
-    while (fscanf(file, "%d %s %s %d %d", &book->id, &book->title, &book->authors, &book->year, &book->copies) != EOF) 
-	{
-      if(head != NULL)
-  		{
-			Book *node;
-			node = (Book *)malloc(sizeof(Book));
-			node=book;
-			node = node->next;
-			if(node != NULL)
+    while (!feof(file)) 
+    {
+    book = (Book*)malloc(sizeof(Book));
+ 	book->authors = (char*)malloc(sizeof(char)*50);
+ 	book->title = (char*)malloc(sizeof(char)*50);
+		fscanf(file, "%d %s %s %d %d\n", &book->id, book->title, book->authors, &book->year, &book->copies);
+			if(book != NULL)
     		{
-      		Book* p = head;
+			Book* p = head;
       		while(p->next != NULL)
+      		{
         	p = p->next;
-			p->next = node;
+        	}
+			p->next = book;
+			p->next->next=0;
     		}
-  		}
     }
     fclose(file);
     return 0;
@@ -108,6 +109,7 @@ int add_book(Book* head)
         a = a->next;
     	}
       	a->next = node1;
+      	a->next->next=0;
 		printf("Book was successfully added!\n");
 		return 0;
 	}
