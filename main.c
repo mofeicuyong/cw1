@@ -20,6 +20,10 @@ int main()
 	int time=0;
 	int kk;
 	BookArray x;
+	FILE*file;
+	FILE*fp;
+	load_books(file,head);
+	load_student(fp,hh,hhh);
 	while(1)
 	{
 		menu1();
@@ -126,6 +130,8 @@ int main()
 					continue;
 				}
 			case 5: 
+			store_student(fp,hh,hhh);
+			store_books(file,head);
 			return 0;
 			default:
       		printf("Illegal input!\n");
