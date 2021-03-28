@@ -46,6 +46,8 @@ int register_id(Student *hh)
         d = d->next;
     	}
       	d->next = i;
+      	i->book=0;
+      	d->next->next=0;
       	i->idi=j;
       	printf("Register successfully!\n");
 		return 1;
@@ -140,6 +142,7 @@ int Borrow_book(Book *head,int sid,Student*hh,Book*hhh)
 					node->year=m->year;
 					node->copies=1;
 					w->next=node;
+					w->next->next=0;
 					m->copies--;
 				}
 			}
@@ -219,4 +222,83 @@ int return_book(Book *head,int sid,Student* hh,Book*hhh)
 	
 }
 
+int store_student(FILE *file,Student *hh,Book* hhh)
+{
+	if(hh != NULL)
+  { 
+    Student *p = hh->next;
+    Book* k=hhh->next;
+    file = fopen("student.txt", "w+");
+    if(file != NULL)
+    {
+      while(p != NULL)
+      {
+        fprintf(file, "%d %s %s %d\n", p->idi,p->id, p->password, p->book);
+        while(k!=NULL)
+        {
+        	fprintf(file, "%d %s %s %d %d\n", k->id,k->title, k->authors, k->year, k->copies);
+        	k=k->next;
+		}
+        p = p->next;
+      }
+      fclose(file);
+      return 0; 
+    }
+	else {
+      
+      printf("fail to open the txt.Please check!\n");
+    }  
+  }
+}
 
+int load_student(FILE *file,Student*hh,Book* hhh)
+{
+	file = fopen("student.txt", "a+");
+ 	Student *p;
+
+  	if (file != NULL) {
+    while (!feof(file)) 
+    {
+    p = (Student*)malloc(sizeof(Student));
+ 	p->id = (char*)malloc(sizeof(char)*50);
+ 	p->password= (char*)malloc(sizeof(char)*50);
+		fscanf(file, "%d %s %s %d\n", &p->idi,p->id, p->password, &p->book);
+			if(p != NULL)
+    		{
+			Student* w=hh;
+      		while(w->next != NULL)
+      		{
+        	w = w->next;
+        	}
+			w->next = p;
+			w->next->next=0;
+    		}
+    		for(int m=0;m<p->book;m++)
+    		{
+    			Book* book=hhh;
+    			book = (Book*)malloc(sizeof(Book));
+ 				book->authors = (char*)malloc(sizeof(char)*50);
+ 				book->title = (char*)malloc(sizeof(char)*50);
+		fscanf(file, "%d %s %s %d %d\n", &book->id, book->title, book->authors, &book->year, &book->copies);
+			if(book != NULL)
+    		{
+			Book* e = hhh;
+      		while(e->next != NULL)
+      		{
+        	e = e->next;
+        	}
+			e->next = book;
+			e->next->next=0;
+    		}
+			}
+    }
+    fclose(file);
+    return 0;
+  }
+
+  else 
+  {
+    printf("fial to open the txt.Please check!\n");
+    return 1;
+  }
+}
